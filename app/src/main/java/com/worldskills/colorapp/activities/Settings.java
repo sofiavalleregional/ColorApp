@@ -21,6 +21,7 @@ public class Settings extends AppCompatActivity {
     public void startActivity(Intent intent){
 
         intent.putExtra(Home.MODO_PARTIDA,1);
-        super.startActivity(intent);
+        startActivity(intent);
+        finish();
     }
 }

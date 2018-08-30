@@ -53,7 +53,7 @@
             <intent
                 android:action="android.intent.action.VIEW"
                 android:targetPackage="com.worldskills.colorapp"
-                android:targetClass="com.worldskills.colorapp.Home"
+                android:targetClass="com.worldskills.colorapp.Partida"
                 />
 
         </Preference>

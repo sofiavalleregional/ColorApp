@@ -7,9 +7,17 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:alertDialogTheme">@style/ca</item>
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:textColorSecondary">@color/gris_claro</item>
     </style>
 
     <style name="ca" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="android:background">@color/colorPrimaryDark</item>
+        <item name="android:textColor">@android:color/white</item>
+
+    </style>
+
+    <style name="item_puntaje_t">
 
     </style>
 

@@ -3,7 +3,7 @@
 
     <PreferenceCategory android:title="PARTIDA">
         <ListPreference
-
+            android:key="modoP"
             android:title="Modo partida"
             android:summary="Escoje la modalidad de la partida"
             android:icon="@drawable/icon_tipo_partida"
@@ -21,7 +21,7 @@
             android:summary="Digita la cantidad del tiempo por partida (TIEMPO)"
             android:maxLength="5"
             android:inputType="number"
-            android:key="@string/key_tiempo_partida"
+            android:key="tiempoP"
             android:icon="@drawable/icon_tiempo_partida"
             />
 
@@ -30,7 +30,7 @@
             android:summary="Digita la cantidad (Milisegundos) que una palabra es mostrada"
             android:maxLength="5"
             android:inputType="number"
-            android:key="@string/key_duracion_palabra"
+            android:key="duracionP"
             android:icon="@drawable/icon_duracion_palabra"
             />
 
@@ -39,25 +39,19 @@
             android:summary="Digita la cantidad de intentos por partida (INTENTOS)"
             android:maxLength="5"
             android:inputType="number"
-            android:key="@string/key_numero_intentos"
+            android:key="intentos"
             android:icon="@drawable/icon_intentos"
             />
     </PreferenceCategory>
-
     <PreferenceCategory android:title="COMENZAR PARTIDA">
-        <Preference
-            android:title="Play"
-            android:summary="Se inicia con la configuración personalizada"
-            android:icon="@drawable/icon_play"
-            >
+        <PreferenceScreen android:title="Play"
+            android:summary="Inicia la partida con la configuración personalizada">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:targetPackage="com.worldskills.colorapp"
-                android:targetClass="com.worldskills.colorapp.Partida"
+                android:targetClass="com.worldskills.colorapp.activities.Partida"
                 />
-
-        </Preference>
-
+        </PreferenceScreen>
     </PreferenceCategory>
 
 

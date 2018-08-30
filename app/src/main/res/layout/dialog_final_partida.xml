@@ -6,7 +6,8 @@
     android:layout_gravity="center"
     android:gravity="center"
     android:background="@drawable/fondo_negro_transparente"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:paddingBottom="22dp">
 
     <ImageView
         android:layout_width="120dp"
@@ -27,7 +28,7 @@
         android:textStyle="bold"/>
 
     <TextView
-        android:id="@+id/show_correct"
+        android:id="@+id/final_correct"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
@@ -52,7 +53,7 @@
         android:textStyle="bold"/>
 
     <TextView
-        android:id="@+id/show_incorrect"
+        android:id="@+id/final_incorrect"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
@@ -70,15 +71,17 @@
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/final_bton_home"
             android:fontFamily="@font/ocra"
-            android:text="Jugar"
+            android:text="Inicio"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:background="@drawable/boton_verde_fondo"/>
 
         <Button
+            android:id="@+id/final_bton_replay"
             android:fontFamily="@font/ocra"
-            android:text="Inicio"
+            android:text="Jugar"
             android:background="@drawable/boton_amarillo_fondo"
             android:layout_width="100dp"
             android:layout_height="wrap_content" />

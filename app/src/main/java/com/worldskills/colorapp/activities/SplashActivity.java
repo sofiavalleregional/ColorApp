@@ -1,10 +1,11 @@
-package com.worldskills.colorapp;
+package com.worldskills.colorapp.activities;
 
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.worldskills.colorapp.R;
 import com.worldskills.colorapp.activities.Home;
 
 public class SplashActivity extends AppCompatActivity {

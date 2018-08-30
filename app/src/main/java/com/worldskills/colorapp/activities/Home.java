@@ -8,6 +8,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.worldskills.colorapp.R;
@@ -17,10 +19,18 @@ public class Home extends AppCompatActivity {
 
     public static final String MODO_PARTIDA="MODOP";
     private int[] puntajesP=new int[4];
+    Animation aparece, desaparece;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+
+        aparece= AnimationUtils.loadAnimation(this,R.anim.aparecer);
+        desaparece= AnimationUtils.loadAnimation(this, R.anim.desaparecer);
+
+        aparece.setFillAfter(true);
+        desaparece.setFillAfter(true);
     }
     /*Metodo con el fin de obtener el boton precionado en el inicio y de igual manera realizar su
     * respeciva accion*/

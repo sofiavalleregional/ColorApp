@@ -2,13 +2,13 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
 
-    <item android:width="60dp"
-        android:height="60dp">
+    <item android:width="76dp"
+        android:height="70dp">
 
         <shape>
             <solid android:color="@color/azul"/>
 
-            <corners android:radius="30dp"/>
+            <corners android:radius="50dp"/>
 
 
         </shape>
@@ -17,12 +17,12 @@
 
 
     <item
-        android:gravity="center" android:height="59dp"
-        android:width="59dp">
+       android:height="70dp"
+        android:width="70dp">
         <shape>
             <solid android:color="@color/azulclaro"/>
 
-            <corners android:radius="30dp"/>
+            <corners android:radius="50dp"/>
 
 
 

@@ -4,11 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/fondo_app"
     android:layout_height="match_parent"
     tools:context=".activities.Partida">
 
 
     <LinearLayout
+        android:background="@color/negro_transparente"
         android:orientation="horizontal"
         android:weightSum="12"
         android:layout_width="match_parent"
@@ -16,6 +18,10 @@
 
 
         <TextView
+            android:fontFamily="@font/ocra"
+            android:textSize="15dp"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
             android:id="@+id/partida_t1"
             android:text="PALABRAS"
             android:layout_weight="3"
@@ -23,6 +29,10 @@
             android:layout_height="wrap_content" />
 
         <TextView
+            android:fontFamily="@font/ocra"
+            android:textSize="15dp"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
             android:id="@+id/partida_t2"
             android:text="PALABRAS"
             android:layout_weight="4"
@@ -31,6 +41,10 @@
 
 
         <TextView
+            android:fontFamily="@font/ocra"
+            android:textSize="15dp"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
             android:id="@+id/partida_t3"
             android:text="PALABRAS"
             android:layout_weight="3"
@@ -48,12 +62,14 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_marginTop="26dp"
+
+        android:layout_marginTop="76dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <Button
+            android:background="@drawable/anim_amarillo"
             android:layout_marginLeft="30dp"
             android:id="@+id/b1"
             android:layout_width="wrap_content"
@@ -61,7 +77,7 @@
 
         <Button
             android:id="@+id/b2"
-
+            android:background="@drawable/anim_azul"
             android:layout_marginLeft="140dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -69,6 +85,7 @@
 
 
     <TextView
+        android:fontFamily="@font/poplar"
         android:layout_marginTop="36dp"
         android:id="@+id/palabra"
         android:layout_width="match_parent"
@@ -76,26 +93,28 @@
         android:layout_gravity="center_vertical"
         android:text="AMARILLO"
         android:textAlignment="center"
-        android:textSize="50dp" />
+        android:textSize="80dp" />
 
 
     <LinearLayout
-        android:layout_marginTop="26dp"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="86dp"
+        android:orientation="horizontal">
 
         <Button
-            android:layout_marginLeft="30dp"
             android:id="@+id/b3"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:background="@drawable/anim_rojo" />
 
         <Button
             android:id="@+id/b4"
-            android:layout_marginLeft="140dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="140dp"
+            android:background="@drawable/anim_verde" />
     </LinearLayout>
 
 

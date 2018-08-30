@@ -45,7 +45,18 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="COMENZAR PARTIDA">
+        <Preference
+            android:title="Play"
+            android:summary="Se inicia con la configuración personalizada"
+            android:icon="@drawable/icon_play"
+            >
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:targetPackage="com.worldskills.colorapp"
+                android:targetClass="com.worldskills.colorapp.Home"
+                />
 
+        </Preference>
 
     </PreferenceCategory>
 

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="PARTIDA">
+        <ListPreference
+
+            android:title="Modo partida"
+            android:summary="Escoje la modalidad de la partida"
+            android:icon="@drawable/icon_tipo_partida"
+            android:entries="@array/valores_modo_partida"
+            android:entryValues="@array/valores_modo_partida"
+            />
+
+
+    </PreferenceCategory>
+    <PreferenceCategory android:title="PERSONALIZAR">
+
+
+        <EditTextPreference
+            android:title="Tiempo partida"
+            android:summary="Digita la cantidad del tiempo por partida (TIEMPO)"
+            android:maxLength="5"
+            android:inputType="number"
+            android:key="@string/key_tiempo_partida"
+            android:icon="@drawable/icon_tiempo_partida"
+            />
+
+        <EditTextPreference
+            android:title="Duración palabra"
+            android:summary="Digita la cantidad (Milisegundos) que una palabra es mostrada"
+            android:maxLength="5"
+            android:inputType="number"
+            android:key="@string/key_duracion_palabra"
+            android:icon="@drawable/icon_duracion_palabra"
+            />
+
+        <EditTextPreference
+            android:title="Numero intetos"
+            android:summary="Digita la cantidad de intentos por partida (INTENTOS)"
+            android:maxLength="5"
+            android:inputType="number"
+            android:key="@string/key_numero_intentos"
+            android:icon="@drawable/icon_intentos"
+            />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="COMENZAR PARTIDA">
+
+
+    </PreferenceCategory>
+
+
+</PreferenceScreen>

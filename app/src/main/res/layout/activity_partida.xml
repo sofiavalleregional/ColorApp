@@ -63,7 +63,7 @@
 
     <LinearLayout
 
-        android:layout_marginTop="76dp"
+        android:layout_marginTop="56dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -86,14 +86,15 @@
 
     <TextView
         android:fontFamily="@font/poplar"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="86dp"
         android:id="@+id/palabra"
+        android:background="@color/negro_transparente"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:text="AMARILLO"
         android:textAlignment="center"
-        android:textSize="80dp" />
+        android:textSize="96dp" />
 
 
     <LinearLayout

@@ -70,7 +70,7 @@
 
         <Button
             android:background="@drawable/anim_amarillo"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="20dp"
             android:id="@+id/b1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -78,7 +78,7 @@
         <Button
             android:id="@+id/b2"
             android:background="@drawable/anim_azul"
-            android:layout_marginLeft="140dp"
+            android:layout_marginLeft="120dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
@@ -100,21 +100,21 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="86dp"
+        android:layout_marginTop="70dp"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/b3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="20dp"
             android:background="@drawable/anim_rojo" />
 
         <Button
             android:id="@+id/b4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="140dp"
+            android:layout_marginLeft="120dp"
             android:background="@drawable/anim_verde" />
     </LinearLayout>
 

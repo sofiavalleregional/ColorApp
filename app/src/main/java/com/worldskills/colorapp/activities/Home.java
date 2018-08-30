@@ -26,6 +26,8 @@ public class Home extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
 
+
+
         aparece= AnimationUtils.loadAnimation(this,R.anim.aparecer);
         desaparece= AnimationUtils.loadAnimation(this, R.anim.desaparecer);
 

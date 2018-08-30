@@ -12,10 +12,12 @@ public class DataBase extends SQLiteOpenHelper {
     public static final String NAME = "colorapp.db";
     public static final int VERSION= 1;
     public static final String TABLE_NAME = "CREATE TABLE PARTIDA (ID INTEGER PRIMARY KEY AUTOINCREMENT, PUNTAJE INTEGER)";
+    private Context context;
 
 
     public DataBase(Context context) {
         super(context, NAME, null, VERSION);
+        this.context=context;
     }
 
     @Override
@@ -39,6 +41,7 @@ public class DataBase extends SQLiteOpenHelper {
         values.put("PUNTAJE", puntaje);
 
         db.insert("PARTIDA", null, values);
+        Toast.makeText(context, "save", Toast.LENGTH_SHORT).show();
 
     }
 
@@ -49,9 +52,10 @@ public class DataBase extends SQLiteOpenHelper {
         try {
             String find []= {"PUNTAJE"};
             String limit ="4";
-            String orderby = "DESC";
+            String orderby = "PUNTAJE DESC";
 
             cursor= db.query("PARTIDA", find, null, null, null, null, orderby, limit);
+            Toast.makeText(context, "load", Toast.LENGTH_SHORT).show();
         }catch (Exception e){}
 
         return cursor;

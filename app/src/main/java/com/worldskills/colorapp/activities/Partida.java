@@ -2,7 +2,11 @@ package com.worldskills.colorapp.activities;
 
 import android.annotation.TargetApi;
 import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.CountDownTimer;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -11,10 +15,12 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.worldskills.colorapp.R;
+import com.worldskills.colorapp.db.DataBase;
 
 import java.util.Random;
 
@@ -57,6 +63,8 @@ public class Partida extends AppCompatActivity {
         if(datos!=null){
             modo=datos.getInt(Home.MODO_PARTIDA);
         }
+
+
         findViews();
         loadAnimation();
 
@@ -78,7 +86,7 @@ public class Partida extends AppCompatActivity {
     }
 
     public void loadAnimation(){
-
+        aparecer=AnimationUtils.loadAnimation(this,R.anim.botones);
     }
     /*Medoto para sacar una posicion al azar*/
     public int azar(){
@@ -119,6 +127,7 @@ public class Partida extends AppCompatActivity {
 
         for (int i=0; i<botonesJuego.length; i++){
             botonesJuego[i].setBackgroundResource(COLORES_BOTONES[numeros[i]]);
+            botonesJuego[i].startAnimation(aparecer);
         }
 
         clickBotones();
@@ -172,8 +181,12 @@ public class Partida extends AppCompatActivity {
         if (tipoP){
             if (intentos==0)finalPartida();
             else cargaJuego();
-
+        }else{
+            cargaJuego();
         }
+
+
+
     }
 
     /*Metodo que se encarga de cargar el juego */
@@ -185,16 +198,25 @@ public class Partida extends AppCompatActivity {
 
         palabras++;
 
-        viewPalabras.setText(palabras+"");
-        viewCorrecto.setText(correctas+"");
+        viewPalabras.setText("PALABRAS\n"+palabras);
+        viewCorrecto.setText("CORRECTAS\n"+correctas);
 
-        if (tipoP)viewModoJuego.setText(intentos+"");
+        if (tipoP)viewModoJuego.setText("INTENTOS\n"+intentos);
     }
 
     /*Metodo para terminar la partida luego de verificar*/
     public void finalPartida(){
 
+       cancelarTiempos();
+        Toast.makeText(this, "Final partida", Toast.LENGTH_SHORT).show();
+        abreDialogFinal();
+        if (modo==0)guardarDatos();
 
+
+    }
+
+    /*Metodo para cancelar los tiempo*/
+    public void cancelarTiempos(){
         try{
             timerPalabra.cancel();
         }catch (Exception e){}
@@ -202,12 +224,11 @@ public class Partida extends AppCompatActivity {
         try{
             timerPartida.cancel();
         }catch (Exception e){}
-
-
-
-        Toast.makeText(this, "final partida", Toast.LENGTH_SHORT).show();
-
-
+    }
+    /*Metodo para guardar datos cuando la partida ya finalizo, solo cuando es partida por defecto*/
+    public void guardarDatos(){
+        DataBase db=new DataBase(this);
+        db.save(correctas);
     }
 
     public void timerPalabraD(){
@@ -223,12 +244,18 @@ public class Partida extends AppCompatActivity {
             }
         }.start();
     }
+
+
+
     /*metodo para iniciar la partida con el tiempo*/
     public void timerPartidaD(){
         timerPartida=new CountDownTimer(tiempoPartida,1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 tiemporeal=millisUntilFinished;
+
+                if (tiemporeal/1000<9)viewModoJuego.setText("TIEMPO\n0"+tiemporeal/1000);
+                else viewModoJuego.setText("TIEMPO\n"+tiemporeal/1000);
 
             }
 
@@ -240,10 +267,82 @@ public class Partida extends AppCompatActivity {
     }
     public void onResume(){
         super.onResume();
+        SharedPreferences datos=PreferenceManager.getDefaultSharedPreferences(this);
+
+
+        if (modo==1){
+            String modd=datos.getString("modoP","INTENTOS");
+
+            if (modd.equalsIgnoreCase("TIEMPO")){
+                tipoP=false;
+                tiempoPartida=Long.parseLong(datos.getString("tiempoP","10000"));
+                timerPartidaD();
+            }
+
+            duracionPalabra=Long.parseLong(datos.getString("duracionP","3000"));
+            intentos=Integer.parseInt(datos.getString("intentos","3"));
+
+        }
 
         cargaJuego();
     }
+
+
+
+    /*Metodo que abre el dialogo final que muestra el resultado de la partida*/
     public void abreDialogFinal(){
+        Dialog dialogFinal=new Dialog(this);
+        dialogFinal.setContentView(R.layout.dialog_final_partida);
+        dialogFinal.setCanceledOnTouchOutside(false);
+        dialogFinal.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        TextView viewCorrect, viewIncorrec;
+        Button btonHome, btonReplay;
+
+        viewCorrect=dialogFinal.findViewById(R.id.final_correct);
+        viewIncorrec=dialogFinal.findViewById(R.id.final_incorrect);
+        btonHome=dialogFinal.findViewById(R.id.final_bton_home);
+        btonReplay=dialogFinal.findViewById(R.id.final_bton_replay);
+
+        viewCorrect.setText(correctas+"");
+        viewIncorrec.setText(palabras-correctas+"");
+
+        btonHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getApplicationContext(),Home.class);
+                startActivity(intent);
+            }
+        });
+
+        btonReplay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getApplicationContext(),Partida.class);
+                intent.putExtra(Home.MODO_PARTIDA,modo);
+                startActivity(intent);
+            }
+        });
+
+        dialogFinal.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                Intent intent=new Intent(getApplicationContext(),Home.class);
+                intent.putExtra(Home.MODO_PARTIDA,modo);
+                startActivity(intent);
+            }
+        });
+
+        LinearLayout layout=dialogFinal.findViewById(R.id.layout_final_partida);
+        layout.startAnimation(aparecer);
+        dialogFinal.show();
+    }
+
+    public void onBackPressed(){
+        cancelarTiempos();
+        Intent intent=new Intent(this,Home.class);
+        startActivity(intent);
+        finish();
 
     }
 

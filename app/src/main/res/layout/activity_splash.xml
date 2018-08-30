@@ -6,7 +6,7 @@
     android:gravity="center"
     android:background="@drawable/fondo_app"
     android:layout_height="match_parent"
-    tools:context=".SplashActivity">
+    tools:context=".activities.SplashActivity">
 
     <ImageView
         android:id="@+id/logo_app"

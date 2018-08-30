@@ -1,4 +1,4 @@
-package com.worldskills.colorapp.fragments;
+package com.worldskills.colorapp.activities;
 
 import android.os.Bundle;
 import android.preference.PreferenceFragment;

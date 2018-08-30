@@ -8,6 +8,8 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,16 +20,23 @@ import java.util.Random;
 
 public class Partida extends AppCompatActivity {
 
-    private static int RECURSOS[]= {R.drawable.anim_amarillo, R.drawable.anim_azul, R.drawable.anim_rojo, R.drawable.anim_verde};
-    private static String COLORES[]= {"AMARILLO", "AZUL", "ROJO", "VERDE"};
-    private int bien, total, intentos, pausas, modo, posicionP, numeros[];
-    private boolean tipoP;
-    private long timerPartida, timerPalabra, tiemporeal;
+    private static int COLORES_BOTONES[]= {R.drawable.anim_amarillo, R.drawable.anim_azul, R.drawable.anim_rojo, R.drawable.anim_verde};
+    private static String COLORES_PALABRAS[]= {"AMARILLO", "AZUL", "ROJO", "VERDE"};
+    private int[] numeros;
 
-    CountDownTimer countPalabra, countPartida;
-    TextView palabras, correcto, modojuego, palabraMostrar;
-    Button b1, b2, b3, b4;
-    Dialog gameover, detener;
+    private TextView viewPalabras, viewCorrecto, viewModoJuego, viewPalabraMostrar;
+    private Button[] botonesJuego;
+
+    private Animation aparecer;
+
+    private int correctas, palabras, intentos, pausas, modo, posicionP, colorTinta;
+    private boolean tipoP;
+    private long duracionPalabra, tiempoPartida, tiemporeal;
+
+    CountDownTimer timerPalabra, timerPartida;
+
+
+
 
 
     @Override
@@ -36,145 +45,110 @@ public class Partida extends AppCompatActivity {
         setContentView(R.layout.activity_partida);
 
 
-        init();
 
+        duracionPalabra=3000;
         intentos=3;
-        timerPalabra=3000;
-        total=0;
-        bien=0;
-        pausas=0;
+        correctas=0;
+        palabras=0;
         tipoP=true;
 
-        Bundle bundle= getIntent().getExtras();
+        Bundle datos= getIntent().getExtras();
 
-        if(bundle!=null)modo= bundle.getInt(Home.MODO_PARTIDA);
-        else modo=1;
-    }
-
-   public void init() {
-        palabras= findViewById(R.id.partida_t1);
-        modojuego= findViewById(R.id.partida_t2);
-        correcto= findViewById(R.id.partida_t3);
-        palabraMostrar = findViewById(R.id.palabra);
-
-        b1= findViewById(R.id.b1);
-        b2= findViewById(R.id.b2);
-        b3= findViewById(R.id.b3);
-        b4= findViewById(R.id.b4);
-
-        gameover= new Dialog(this);
-
-    }
-
-
-
-    @Override
-   protected void onResume() {
-        super.onResume();
-        SharedPreferences preferences= PreferenceManager.getDefaultSharedPreferences(this);
-
-        if(modo==1){
-            if(preferences.getString(getResources().getString(R.string.key_modo_partida), "INTENTOS").equalsIgnoreCase("TIEMPO")){
-               timerPartida= Long.parseLong(preferences.getString(getResources().getString(R.string.key_tiempo_partida), "30000"));
-               tiempoPartida(timerPartida);
-                tipoP=false;
-            } else {
-                intentos=Integer.parseInt(preferences.getString(getResources().getString(R.string.key_numero_intentos),"3"));
-            }
-
-            timerPalabra= Long.parseLong(preferences.getString(getResources().getString(R.string.key_duracion_palabra), "3000"));
+        if(datos!=null){
+            modo=datos.getInt(Home.MODO_PARTIDA);
         }
+        findViews();
+        loadAnimation();
 
-      juego();
+    }
+    /*Metodo para encontrar las vistas del layout*/
+    public void findViews(){
+        viewPalabras=findViewById(R.id.partida_t1);
+        viewModoJuego=findViewById(R.id.partida_t2);
+        viewCorrecto=findViewById(R.id.partida_t3);
+        viewPalabraMostrar=findViewById(R.id.palabra);
+
+
+        botonesJuego=new Button[4];
+        botonesJuego[0]=findViewById(R.id.b1);
+        botonesJuego[1]=findViewById(R.id.b2);
+        botonesJuego[2]=findViewById(R.id.b3);
+        botonesJuego[3]=findViewById(R.id.b4);
+
     }
 
+    public void loadAnimation(){
 
-    public void juego(){
-        total++;
-        mostrarBotones();
-        asignarColor();
-        palabraMostrar.setText(COLORES[azar()]);
-
-        tiempoPalabra(timerPalabra);
-
-        palabras.setText(""+total);
-        if(tipoP)modojuego.setText(""+intentos);
-        correcto.setText(""+ bien);
     }
-
-    public void comparar(int position){
-        try {
-            countPalabra.cancel();
-        } catch (Exception e){}
-
-        if(position==posicionP)bien++;
-        else intentos--;
-
-
-        if(tipoP) {
-            if (intentos == 0) finalizarPartida();
-        }
-
-        juego();
-    }
-
-
+    /*Medoto para sacar una posicion al azar*/
     public int azar(){
-        Random random= new Random();
-        int num = random.nextInt(COLORES.length);
-
-        return num;
+        return new Random().nextInt(COLORES_BOTONES.length);
     }
+    public void azarColorTinta(){
+        colorTinta=azar();
+        switch (colorTinta){
+            case 0:
+                viewPalabraMostrar.setTextColor(getResources().getColor(R.color.amarillo,null));
 
-    int colores [] = {R.color.amarillo, R.color.azul, R.color.rojo, R.color.verde};
-    public void mostrarBotones(){
+                break;
+            case 1:
+                viewPalabraMostrar.setTextColor(getResources().getColor(R.color.azul,null));
+                break;
+            case 2:
+                viewPalabraMostrar.setTextColor(getResources().getColor(R.color.rojo,null));
+                break;
+            case 3:
+                viewPalabraMostrar.setTextColor(getResources().getColor(R.color.verde,null));
+                break;
+        }
+    }
+    public void botonesAzar(){
+        numeros=new int[4];
+        for (int i=0; i<numeros.length;i++)numeros[i]=-1;
 
-       numeros= new int[4];
-        for (int i=0; i<COLORES.length; i++ )numeros[i]=-1;
+        int base=0;
 
-
-        int conta=0;
-        do {
-            int numazar= azar();
-            if(numeros[numazar]==-1){
-                numeros[numazar]= conta;
-                conta++;
+        do{
+            int posicion=azar();
+            if (numeros[posicion]==-1){
+                numeros[posicion]=base;
+                base++;
             }
 
-        }while (conta<4);
+        }while (base<4);
 
-        b1.setBackgroundResource(colores[0]);
-        b2.setBackgroundResource(colores[1]);
-        b3.setBackgroundResource(colores[2]);
-        b4.setBackgroundResource(colores[3]);
+        for (int i=0; i<botonesJuego.length; i++){
+            botonesJuego[i].setBackgroundResource(COLORES_BOTONES[numeros[i]]);
+        }
 
-        onClickbotones();
+        clickBotones();
+
+
     }
-
-
-    public void onClickbotones(){
-        b1.setOnClickListener(new View.OnClickListener() {
+    /*metodo que pone a la escucha a todos los botones de los colores*/
+    public void clickBotones(){
+        botonesJuego[0].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 comparar(numeros[0]);
             }
         });
 
-        b2.setOnClickListener(new View.OnClickListener() {
+        botonesJuego[1].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               comparar(numeros[1]);
+                comparar(numeros[1]);
             }
         });
 
-        b3.setOnClickListener(new View.OnClickListener() {
+        botonesJuego[2].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               comparar(numeros[2]);
+                comparar(numeros[2]);
             }
         });
 
-        b4.setOnClickListener(new View.OnClickListener() {
+        botonesJuego[3].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 comparar(numeros[3]);
@@ -182,32 +156,62 @@ public class Partida extends AppCompatActivity {
         });
     }
 
-    @TargetApi(23)
-    public void asignarColor(){
-        posicionP= azar();
 
-        switch (posicionP){
-            case 0:
-                palabraMostrar.setTextColor(getResources().getColor(R.color.amarillo,null));
-                break;
-            case 1:
-                palabraMostrar.setTextColor(getResources().getColor(R.color.azul,null));
-                break;
-            case  2:
-                palabraMostrar.setTextColor(getResources().getColor(R.color.rojo,null));
-                break;
-            case 3:
-                palabraMostrar.setTextColor(getResources().getColor(R.color.verde,null));
-                break;
+    /*metodo que recibe el boton precionado y compara si la accion es correcta*/
+    public void comparar(int botonPresionado){
+        if (botonPresionado==colorTinta){
+            correctas++;
+        }else{
+            intentos--;
+        }
+
+        try{
+            timerPalabra.cancel();
+        }catch (Exception e){}
+
+        if (tipoP){
+            if (intentos==0)finalPartida();
+            else cargaJuego();
+
         }
     }
 
+    /*Metodo que se encarga de cargar el juego */
+    public void cargaJuego(){
+        azarColorTinta();
+        viewPalabraMostrar.setText(COLORES_PALABRAS[azar()]);
+        botonesAzar();
+        timerPalabraD();
+
+        palabras++;
+
+        viewPalabras.setText(palabras+"");
+        viewCorrecto.setText(correctas+"");
+
+        if (tipoP)viewModoJuego.setText(intentos+"");
+    }
+
+    /*Metodo para terminar la partida luego de verificar*/
+    public void finalPartida(){
 
 
-    ////////// TIEMPOS MANEJADOS /////////////////////
+        try{
+            timerPalabra.cancel();
+        }catch (Exception e){}
 
-    public void tiempoPalabra(Long palabra){
-        countPalabra= new CountDownTimer(palabra, 1000) {
+        try{
+            timerPartida.cancel();
+        }catch (Exception e){}
+
+
+
+        Toast.makeText(this, "final partida", Toast.LENGTH_SHORT).show();
+
+
+    }
+
+    public void timerPalabraD(){
+        timerPalabra=new CountDownTimer(duracionPalabra,1000) {
             @Override
             public void onTick(long millisUntilFinished) {
 
@@ -215,65 +219,36 @@ public class Partida extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                intentos--;
-                if(tipoP) {
-                    if(intentos==0) finalizarPartida();
-                }
-
-                juego();
+                comparar(10);//a
             }
         }.start();
     }
-
-    public void tiempoPartida(Long partida){
-        countPartida = new CountDownTimer(partida, 1000) {
+    /*metodo para iniciar la partida con el tiempo*/
+    public void timerPartidaD(){
+        timerPartida=new CountDownTimer(tiempoPartida,1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                modojuego.setText(""+(millisUntilFinished/1000));
-                tiemporeal= millisUntilFinished;
+                tiemporeal=millisUntilFinished;
+
             }
 
             @Override
             public void onFinish() {
-                finalizarPartida();
+                finalPartida();
             }
         }.start();
     }
+    public void onResume(){
+        super.onResume();
 
+        cargaJuego();
+    }
+    public void abreDialogFinal(){
 
-    public void pausarJuego(View v){
-        if(pausas<2){
-            detener.show();
-            try {
-                countPartida.cancel();
-            }catch (Exception e){}
-
-            try {
-                countPalabra.cancel();
-            } catch (Exception e){}
-
-            Button reanudar = detener.findViewById(R.id.dialog_pausa_boton);
-
-            reanudar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(tipoP){
-                        tiempoPartida(tiemporeal);
-                    }
-                 detener.dismiss();
-                }
-            });
-
-            pausas++;
-        } else Toast.makeText(this, "SOLO SON DOS PAUSAS", Toast.LENGTH_SHORT).show();
-        juego();
     }
 
 
 
-    private void finalizarPartida() {
-
-    }
 
 
 }

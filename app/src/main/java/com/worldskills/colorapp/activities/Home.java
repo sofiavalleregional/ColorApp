@@ -28,6 +28,7 @@ public class Home extends AppCompatActivity {
 
 
 
+
         aparece= AnimationUtils.loadAnimation(this,R.anim.aparecer);
         desaparece= AnimationUtils.loadAnimation(this, R.anim.desaparecer);
 

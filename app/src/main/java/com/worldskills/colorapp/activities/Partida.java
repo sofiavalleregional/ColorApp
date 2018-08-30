@@ -81,12 +81,18 @@ public class Partida extends AppCompatActivity {
             timerPalabra= Long.parseLong(preferences.getString(getResources().getString(R.string.key_tiempo_partida), "3000"));
         }
 
-     //   juego();
+      juego();
     }
 
 
+    public void juego(){
+        total++;
+        mostrarBotones();
+        asignarColor();
+        palabraMostrar.setText(COLORES[azar()]);
 
-
+        palabras.setText(""+total);
+    }
 
 
 
@@ -126,28 +132,28 @@ public class Partida extends AppCompatActivity {
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                comparar(numeros[0]);
+          //      comparar(numeros[0]);
             }
         });
 
         b2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                comparar(numeros[1]);
+         //       comparar(numeros[1]);
             }
         });
 
         b3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                comparar(numeros[2]);
+           //     comparar(numeros[2]);
             }
         });
 
         b4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                comparar(numeros[3]);
+              //  comparar(numeros[3]);
             }
         });
     }
@@ -159,7 +165,16 @@ public class Partida extends AppCompatActivity {
         switch (posicionP){
             case 0:
                 palabraMostrar.setTextColor(getResources().getColor(R.color.amarillo));
-
+                break;
+            case 1:
+                palabraMostrar.setTextColor(getResources().getColor(R.color.azul));
+                break;
+            case  2:
+                palabraMostrar.setTextColor(getResources().getColor(R.color.rojo));
+                break;
+            case 3:
+                palabraMostrar.setTextColor(getResources().getColor(R.color.verde));
+                break;
         }
     }
 }
